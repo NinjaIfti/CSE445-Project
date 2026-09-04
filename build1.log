@@ -1,0 +1,429 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(main.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/ieeetran\IEEEtran.cls
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1ptm.fd)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+-- This is a 10 point document.
+)
+** ATTENTION: Overriding command lockouts (line 13).
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/cite\cite.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+For additional information on amsmath, use the `?' option.
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty)
+)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/algorithms\algorithm.s
+ty (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/algorithms\algorithmic
+.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.
+cfg)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.de
+f))) (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/base\textcomp.sty
+) (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx
+))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty)
+ (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/multirow\multirow.sty
+) (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.st
+y)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefin
+ekeys.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.
+sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty)
+
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmd
+s.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.
+sty)))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty)
+
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\getti
+tlestring.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.st
+y)))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty)
+
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.
+sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcal
+c.sty)))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfi
+lecheck.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\unique
+counter.sty)))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pd
+ftex.def)
+No file main.aux.
+-- Lines per column: 56 (exact).
+
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.m
+kii
+[Loading MPS to PDF converter (version 2006.09.02).]
+)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-
+base.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.
+cfg))
+
+LaTeX Warning: Citation `kong2020hifigan' on page 1 undefined on input line 104
+.
+
+
+LaTeX Warning: Citation `kumar2019melgan' on page 1 undefined on input line 104
+.
+
+
+LaTeX Warning: Citation `prenger2019waveglow' on page 1 undefined on input line
+ 104.
+
+
+LaTeX Warning: Citation `yamamoto2020pwg' on page 1 undefined on input line 104
+.
+
+
+LaTeX Warning: Citation `kim2021vits' on page 1 undefined on input line 104.
+
+
+LaTeX Warning: Citation `todisco2019asvspoof' on page 1 undefined on input line
+ 107.
+
+
+LaTeX Warning: Citation `frank2021wavefake' on page 1 undefined on input line 1
+07.
+
+
+LaTeX Warning: Citation `fahad2025banglafake' on page 1 undefined on input line
+ 110.
+
+
+LaTeX Warning: Citation `samu2025zeroshot' on page 1 undefined on input line 11
+2.
+
+
+LaTeX Warning: Citation `kawa2023lcnn' on page 1 undefined on input line 123.
+
+
+LaTeX Warning: Citation `ahmed2026melspec' on page 1 undefined on input line 12
+4.
+
+
+LaTeX Warning: Citation `ganin2016dann' on page 1 undefined on input line 134.
+
+
+LaTeX Warning: Citation `goodfellow2015fgsm' on page 1 undefined on input line 
+135.
+
+
+LaTeX Warning: Citation `madry2018pgd' on page 1 undefined on input line 135.
+
+[1{C:/Users/I-Bros/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/I
+-Bros/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}]
+
+LaTeX Warning: Citation `frank2021wavefake' on page 2 undefined on input line 1
+43.
+
+
+LaTeX Warning: Citation `ahmed2026melspec' on page 2 undefined on input line 14
+4.
+
+
+LaTeX Warning: Reference `sec:arch' on page 2 undefined on input line 158.
+
+
+LaTeX Warning: Reference `sec:training' on page 2 undefined on input line 162.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 159--163
+[]\OT1/ptm/m/n/10 A \OT1/ptm/b/n/10 dual-adversarial ob-jec-tive \OT1/ptm/m/n/1
+0 that com-bines a
+
+LaTeX Warning: Reference `sec:threat' on page 2 undefined on input line 167.
+
+
+LaTeX Warning: Reference `sec:design' on page 2 undefined on input line 167.
+
+
+LaTeX Warning: Reference `sec:design' on page 2 undefined on input line 170.
+
+
+LaTeX Warning: Citation `todisco2019asvspoof' on page 2 undefined on input line
+ 181.
+
+
+LaTeX Warning: Citation `frank2021wavefake' on page 2 undefined on input line 1
+83.
+
+
+LaTeX Warning: Citation `ito2017ljspeech' on page 2 undefined on input line 184
+.
+
+
+LaTeX Warning: Citation `fahad2025banglafake' on page 2 undefined on input line
+ 186.
+
+
+LaTeX Warning: Citation `ahmad2021sust' on page 2 undefined on input line 187.
+
+
+LaTeX Warning: Citation `ardila2020commonvoice' on page 2 undefined on input li
+ne 187.
+
+
+LaTeX Warning: Citation `kim2021vits' on page 2 undefined on input line 188.
+
+
+LaTeX Warning: Citation `samu2025zeroshot' on page 2 undefined on input line 19
+1.
+
+
+LaTeX Warning: Citation `frank2021wavefake' on page 2 undefined on input line 1
+99.
+
+
+LaTeX Warning: Citation `ahmed2026melspec' on page 2 undefined on input line 19
+9.
+
+
+LaTeX Warning: Citation `chollet2017xception' on page 2 undefined on input line
+ 201.
+
+
+LaTeX Warning: Citation `ganin2016dann' on page 2 undefined on input line 212.
+
+
+LaTeX Warning: Citation `fahad2025banglafake' on page 2 undefined on input line
+ 217.
+
+
+LaTeX Warning: Citation `samu2025zeroshot' on page 2 undefined on input line 21
+8.
+
+
+LaTeX Warning: Citation `goodfellow2015fgsm' on page 2 undefined on input line 
+222.
+
+
+LaTeX Warning: Citation `madry2018pgd' on page 2 undefined on input line 222.
+
+
+LaTeX Warning: Citation `kawa2023lcnn' on page 2 undefined on input line 223.
+
+
+LaTeX Warning: Citation `ahmed2026melspec' on page 2 undefined on input line 22
+5.
+
+
+LaTeX Warning: Citation `frank2021wavefake' on page 2 undefined on input line 2
+36.
+
+
+LaTeX Warning: Citation `ito2017ljspeech' on page 2 undefined on input line 238
+.
+
+
+LaTeX Warning: Citation `fahad2025banglafake' on page 2 undefined on input line
+ 244.
+
+[2] (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd)
+
+LaTeX Warning: Reference `sec:design' on page 3 undefined on input line 259.
+
+
+LaTeX Warning: Citation `ahmed2026melspec' on page 3 undefined on input line 27
+0.
+
+
+LaTeX Warning: Reference `tab:datasets' on page 3 undefined on input line 276.
+
+
+LaTeX Warning: Reference `sec:hbp' on page 3 undefined on input line 277.
+
+
+
+pdfTeX warning: pdflatex.exe (file ./fig1-methodology.drawio.pdf): PDF inclusio
+n: found PDF version <1.7>, but at most version <1.5> allowed
+
+LaTeX Warning: Reference `fig:pipeline' on page 3 undefined on input line 320.
+
+
+LaTeX Warning: Reference `fig:dasfnet' on page 3 undefined on input line 320.
+
+
+LaTeX Warning: Citation `ahmed2026melspec' on page 3 undefined on input line 33
+0.
+
+
+LaTeX Warning: Citation `chollet2017xception' on page 3 undefined on input line
+ 367.
+
+
+LaTeX Warning: Citation `ahmed2026melspec' on page 3 undefined on input line 37
+8.
+
+
+
+pdfTeX warning: pdflatex.exe (file ./fig2-dasfnet.drawio.pdf): PDF inclusion: f
+ound PDF version <1.7>, but at most version <1.5> allowed
+[3] (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\omsptm.fd)
+
+LaTeX Warning: Citation `ganin2016dann' on page 4 undefined on input line 436.
+
+
+LaTeX Warning: Reference `eq:total' on page 4 undefined on input line 455.
+
+
+LaTeX Warning: Reference `sec:design' on page 4 undefined on input line 464.
+
+
+LaTeX Warning: Citation `goodfellow2015fgsm' on page 4 undefined on input line 
+471.
+
+
+LaTeX Warning: Citation `madry2018pgd' on page 4 undefined on input line 475.
+
+
+LaTeX Warning: Citation `ahmed2026melspec' on page 4 undefined on input line 48
+0.
+
+
+
+pdfTeX warning: pdflatex.exe (file ./fig3-training.drawio.pdf): PDF inclusion: 
+found PDF version <1.7>, but at most version <1.5> allowed
+
+LaTeX Warning: Reference `eq:total' on page 4 undefined on input line 505.
+
+
+LaTeX Warning: Reference `fig:training' on page 4 undefined on input line 510.
+
+
+LaTeX Warning: Citation `ganin2016dann' on page 4 undefined on input line 524.
+
+
+LaTeX Warning: Reference `alg:train' on page 4 undefined on input line 533.
+
+[4]
+
+LaTeX Warning: Citation `ahmed2026melspec' on page 5 undefined on input line 54
+1.
+
+
+LaTeX Warning: Reference `alg:forward' on page 5 undefined on input line 554.
+
+
+LaTeX Warning: Reference `alg:train' on page 5 undefined on input line 555.
+
+
+Underfull \hbox (badness 4072) in paragraph at lines 561--565
+[] []\OT1/ptm/m/n/10 waveform $\OML/cmm/m/it/10 w$\OT1/ptm/m/n/10 ; adapters $\
+OML/cmm/m/it/10 A[]; A[]$\OT1/ptm/m/n/10 ; shared trunk
+
+LaTeX Warning: Reference `eq:total' on page 5 undefined on input line 627.
+
+
+LaTeX Warning: Reference `sec:pairing' on page 5 undefined on input line 669.
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 674--679
+[]\OT1/ptm/b/n/10 Gender-balanced Ben-gali eval-u-a-tion. \OT1/ptm/m/n/10 Be-ca
+use
+
+LaTeX Warning: Citation `kinnunen2018tdcf' on page 6 undefined on input line 68
+3.
+
+
+LaTeX Warning: Citation `samu2025zeroshot' on page 6 undefined on input line 69
+1.
+
+
+LaTeX Warning: Citation `ahmed2026melspec' on page 6 undefined on input line 69
+3.
+
+
+LaTeX Warning: Reference `sec:threat' on page 6 undefined on input line 705.
+
+
+LaTeX Warning: Reference `sec:hbp' on page 6 undefined on input line 716.
+
+
+LaTeX Warning: Reference `sec:threat' on page 6 undefined on input line 727.
+
+
+LaTeX Warning: Reference `sec:design' on page 6 undefined on input line 787.
+
+[6]
+
+** Conference Paper **
+Before submitting the final camera ready copy, remember to:
+
+ 1. Manually equalize the lengths of two columns on the last page
+ of your paper;
+
+ 2. Ensure that any PostScript and/or PDF output post-processing
+ uses only Type 1 fonts and that every step in the generation
+ process uses the appropriate paper size.
+
+[7] [8 <./fig1-methodology.drawio.pdf>] [9 <./fig2-dasfnet.drawio.pdf>]
+[10 <./fig3-training.drawio.pdf>] (main.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+ )
+(see the transcript file for additional information)<C:/Users/I-Bros/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/I-Bros/
+AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Use
+rs/I-Bros/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pf
+b><C:/Users/I-Bros/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
+/cmmi7.pfb><C:/Users/I-Bros/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
+sfonts/cm/cmmi8.pfb><C:/Users/I-Bros/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmr10.pfb><C:/Users/I-Bros/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/I-Bros/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/I-Bros/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/I-Bros/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/User
+s/I-Bros/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Use
+rs/I-Bros/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/U
+sers/I-Bros/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/
+Users/I-Bros/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (10 pages, 906294 bytes).
+Transcript written on main.log.
+pdflatex: major issue: So far, you have not checked for MiKTeX updates.

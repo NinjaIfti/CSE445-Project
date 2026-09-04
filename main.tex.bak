@@ -1,0 +1,574 @@
+% =============================================================================
+% Cross-Lingual Generalization and Adversarial Robustness of Mel-Spectrogram
+% CNN Detectors: From English to Bengali Audio Deepfakes
+%
+% IEEE conference-format LaTeX source. NOT compiled -- please build locally
+% (pdflatex -> bibtex/manual refs -> pdflatex x2) once results are filled in.
+%
+% All numeric results in Section VI are PLACEHOLDERS (marked \TODO / XX.X)
+% pending the three experiments defined in Section V. Do not submit with
+% placeholder numbers still in place.
+% =============================================================================
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+
+\newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{Cross-Lingual Generalization and Adversarial Robustness of\\
+Mel-Spectrogram CNN Detectors: From English to Bengali Audio Deepfakes}
+
+% ---------------------------------------------------------------------------
+% TODO: confirm final author list / order / affiliations before submission.
+% ---------------------------------------------------------------------------
+\author{
+\IEEEauthorblockN{Iftikhar Ahmed}
+\IEEEauthorblockA{\textit{Dept. of Electrical and Computer Engineering} \\
+\textit{North South University}\\
+Dhaka, Bangladesh \\
+iftikhar.ahmed@northsouth.edu}
+\and
+\IEEEauthorblockN{Meherun Nessa Mithila}
+\IEEEauthorblockA{\textit{Dept. of Electrical and Computer Engineering} \\
+\textit{North South University}\\
+Dhaka, Bangladesh \\
+meherun.mithila@northsouth.edu}
+\and
+\IEEEauthorblockN{Mohammad Abdul Qayum}
+\IEEEauthorblockA{\textit{Dept. of Electrical and Computer Engineering} \\
+\textit{North South University}\\
+Dhaka, Bangladesh \\
+mohammad.qayum@northsouth.edu}
+}
+
+\maketitle
+
+\begin{abstract}
+Audio deepfake detection research has concentrated almost exclusively on
+high-resource languages such as English, leaving open whether detectors
+that perform well against one language and one family of neural vocoders
+generalize to an unseen language synthesized with a different architecture
+entirely. We extend a Mel-Spectrogram/Xception convolutional neural network
+(CNN) detection pipeline, previously validated on the English WaveFake
+benchmark (117,985 utterances spanning seven GAN-based vocoders), to the
+Bengali BanglaFake dataset (25,520 utterances synthesized with a VITS-based
+end-to-end text-to-speech system). Because VITS is architecturally distinct
+from every vocoder present in WaveFake, evaluating transfer between the two
+datasets probes generalization across language and synthesis paradigm
+simultaneously, even though only a single Bengali vocoder is available. We
+first confirm, in-language, whether Mel-Spectrogram features continue to
+outperform Linear Frequency Cepstral Coefficients (LFCC) for CNN-based
+Bengali deepfake detection, replicating the representational advantage
+previously observed on English audio. We then measure zero-shot transfer
+in both directions (English-to-Bengali and Bengali-to-English, including a
+per-vocoder breakdown) and assess whether adversarial robustness acquired
+via Fast Gradient Sign Method (FGSM) and Projected Gradient Descent (PGD)
+adaptive adversarial training on one language transfers to the other.
+\TODO{Summarize headline results once experiments are run, e.g.\ ``Results
+show that Mel-Spectrogram's representational advantage persists across
+languages, that zero-shot transfer degrades performance by X\% EER, and
+that adversarially trained robustness transfers only partially (Y\% of the
+in-domain robustness gain).''} Our study provides the first cross-lingual,
+adversarially evaluated benchmark for Bengali audio deepfake detection.
+\end{abstract}
+
+\begin{IEEEkeywords}
+audio deepfake detection, cross-lingual generalization, adversarial
+robustness, Mel-Spectrogram, Xception, Bengali speech, low-resource
+language, convolutional neural networks
+\end{IEEEkeywords}
+
+% =============================================================================
+\section{Introduction}
+% =============================================================================
+
+Neural vocoders and end-to-end text-to-speech (TTS) systems now generate
+speech that is frequently indistinguishable from genuine human recordings
+\cite{kong2020hifigan,kumar2019melgan,prenger2019waveglow,yamamoto2020pwg}.
+This capability has been misused for voice-impersonation fraud and
+disinformation, motivating a large body of work on automatic audio deepfake
+detection \cite{todisco2019asvspoof,frank2021wavefake}. That body of work,
+however, is overwhelmingly built around English-language benchmarks.
+Bengali, spoken natively by over 230 million people, has almost no
+detection research behind it: BanglaFake \cite{fahad2025banglafake} was
+the first dataset to make Bengali deepfake audio available at scale, and
+``Zero-Shot to Zero-Lies'' \cite{samu2025zeroshot} was the first paper to
+benchmark detection models on it, reporting a best zero-shot result of
+53.80\% accuracy / 46.20\% EER (Wav2Vec2-XLSR-53) and a best fine-tuned
+result of 79.17\% accuracy / 24.35\% EER (ResNet18).
+
+Two questions remain open after that benchmark, and the authors of
+\cite{samu2025zeroshot} explicitly name both as future work: (1) whether
+detectors trained on high-resource languages generalize to Bengali, or
+vice versa, and (2) whether such detectors are robust to adversarial
+perturbation. Separately, our own prior work \cite{ahmed2026melspec}
+showed, on the English WaveFake dataset, that dense Mel-Spectrogram
+features give a CNN-based Xception detector a substantial and consistent
+advantage over LFCC (avg. EER 0.034 vs.\ 0.053 across seven vocoders in
+leave-one-out cross-validation), and that adaptive adversarial training
+against FGSM/PGD attacks recovers most of the robustness lost under
+white-box attack (FGSM EER 0.70 $\rightarrow$ 0.107; PGD EER
+0.90 $\rightarrow$ 0.154).
+
+This paper connects these two lines of work. We take the exact
+Mel-Spectrogram/Xception/adversarial-training pipeline validated in
+\cite{ahmed2026melspec} and apply it to BanglaFake, structured around
+three questions:
+
+\begin{itemize}
+\item \textbf{RQ1 (in-language):} Does the Mel-Spectrogram-over-LFCC
+advantage observed on English audio replicate on Bengali audio?
+\item \textbf{RQ2 (cross-lingual transfer):} How much does detection
+performance degrade under zero-shot transfer between English
+(GAN-vocoder) and Bengali (VITS) audio, in both directions?
+\item \textbf{RQ3 (adversarial transfer):} Does adversarial robustness
+acquired through training on one language/architecture transfer to the
+other, or must it be learned independently per language?
+\end{itemize}
+
+Because BanglaFake's synthetic audio comes from a single VITS-based
+system --- an end-to-end flow/VAE architecture, unlike any of WaveFake's
+seven GAN-based vocoders --- the English$\leftrightarrow$Bengali transfer
+experiment is simultaneously a cross-lingual \emph{and}
+cross-architecture generalization test, which we argue is a meaningful
+proxy for real-world deployment even without additional Bengali TTS
+backbones.
+
+Our contributions are:
+\begin{enumerate}
+\item The first replication of the Mel-Spectrogram vs.\ LFCC CNN
+representation comparison on Bengali audio deepfake detection.
+\item The first cross-lingual, cross-architecture zero-shot transfer
+study between an English GAN-vocoder benchmark (WaveFake) and a Bengali
+end-to-end TTS benchmark (BanglaFake).
+\item The first study of adversarial robustness transfer for Bengali
+audio deepfake detection, quantifying how much FGSM/PGD-trained
+robustness carries across languages versus how much must be re-learned
+in-domain.
+\end{enumerate}
+
+% =============================================================================
+\section{Related Work}
+% =============================================================================
+
+\subsection{Audio Deepfake Datasets and Benchmarks}
+ASVspoof \cite{todisco2019asvspoof} and the ADD challenge series
+established standardized English/Chinese benchmarks for spoofing
+countermeasures. WaveFake \cite{frank2021wavefake} extended this with
+117,985 utterances across seven neural vocoder architectures derived from
+LJSpeech \cite{ito2017ljspeech}, enabling systematic leave-one-out
+cross-vocoder evaluation. BanglaFake \cite{fahad2025banglafake} is, to our
+knowledge, the first public Bengali deepfake audio dataset, pairing
+12,260 real utterances (SUST TTS Corpus and Mozilla Common Voice) with
+13,260 utterances synthesized by a VITS-based TTS model
+\cite{kim2021vits} trained on the SUST corpus. Its authors evaluate
+dataset quality via Mean Opinion Score and t-SNE visualization of MFCCs
+rather than training a detector. \cite{samu2025zeroshot} closed that gap
+with the first Bengali deepfake \emph{detection} benchmark, evaluating
+zero-shot pretrained models (Wav2Vec2-XLSR-53, Whisper, PANNsCNN14,
+WavLM, Audio Spectrogram Transformer) and fine-tuned architectures
+(Wav2Vec2-Base, LCNN, LCNN-Attention, ResNet18, ViT-B16, CNN-BiLSTM),
+with ResNet18 as the strongest fine-tuned model.
+
+\subsection{Feature Representations for CNN-Based Detection}
+LFCC paired with Gaussian Mixture Model classifiers has been the
+long-standing default for spoofing countermeasures
+\cite{frank2021wavefake}, but whether that advantage holds for deep CNNs
+was, until \cite{ahmed2026melspec}, unexplored. That work showed
+Mel-Spectrogram's dense 128-bin time-frequency structure transfers better
+into an ImageNet-pretrained Xception CNN \cite{chollet2017xception} than
+LFCC's sparse 20-coefficient cepstral representation, yielding a
+consistent 33--35\% relative EER improvement across all seven WaveFake
+vocoders. Whether this advantage is specific to GAN-vocoder artifacts or
+generalizes to a different synthesis paradigm (VITS) and a different
+language (Bengali) is a central question of the present paper.
+
+\subsection{Cross-Lingual Generalization}
+Cross-lingual generalization for deepfake detection is comparatively
+under-studied; most existing evidence comes from cross-lingual TTS
+transfer-learning literature rather than detection literature directly.
+\cite{samu2025zeroshot} and \cite{fahad2025banglafake} both flag this as
+an open problem for Bengali specifically. We are not aware of prior work
+that measures zero-shot transfer of a CNN-based detector between an
+English GAN-vocoder benchmark and a Bengali end-to-end TTS benchmark.
+
+\subsection{Adversarial Robustness}
+FGSM \cite{goodfellow2015fgsm} and PGD \cite{madry2018pgd} are standard
+white-box gradient attacks used to stress-test spoofing countermeasures.
+\cite{kawa2023lcnn} showed FGSM can degrade a lightweight LCNN detector
+from EER 0.022 to 0.785, and that adversarial training recovers most of
+that loss at a moderate clean-accuracy cost. \cite{ahmed2026melspec}
+reproduced this pattern with a larger, ImageNet-pretrained Xception
+model using an adaptive adversarial training scheme with momentum-weighted
+attack sampling. No prior work has examined adversarial robustness for
+Bengali audio deepfake detection, nor whether robustness learned on one
+language transfers to another --- both addressed here.
+
+% =============================================================================
+\section{Datasets}
+% =============================================================================
+
+\subsection{WaveFake (English)}
+WaveFake \cite{frank2021wavefake} contains 117,985 utterances
+(13,100 real, 104,885 synthetic) derived from the single-speaker LJSpeech
+corpus \cite{ito2017ljspeech}, covering seven vocoders: MelGAN,
+MelGAN-Large, Parallel WaveGAN, Multi-Band MelGAN, Full-Band MelGAN,
+HiFi-GAN, and WaveGlow, plus a full TTS pipeline. All seven vocoders are
+GAN-based or GAN-adjacent flow models trained to mimic a single female
+English speaker.
+
+\subsection{BanglaFake (Bengali)}
+BanglaFake \cite{fahad2025banglafake} contains 25,520 utterances: 12,260
+real (10,000 from the SUST TTS Corpus, 2,260 from Mozilla Common Voice
+across five speakers) and 13,260 synthetic, all generated by a single
+VITS-based \cite{kim2021vits} TTS model trained from scratch on the SUST
+corpus and representing a single male synthetic speaker. Real and
+synthetic audio are both distributed as 22{,}050~Hz WAV clips of
+6--7~seconds in LJSpeech-style directory format.
+
+\subsection{Cross-Dataset Alignment}
+\label{sec:alignment}
+To make cross-dataset transfer experiments valid, all audio from both
+datasets is normalized to an identical representation before feature
+extraction: resampled to 16~kHz mono, silences longer than 2~s at a
+40~dB threshold trimmed, and duration normalized to 4~s (padded or
+truncated), matching the preprocessing protocol of
+\cite{ahmed2026melspec}. Table~\ref{tab:datasets} summarizes both
+datasets after this normalization.
+
+\begin{table}[htbp]
+\caption{Dataset summary after cross-dataset alignment (Section~\ref{sec:alignment})}
+\label{tab:datasets}
+\centering
+\begin{tabular}{lcc}
+\toprule
+& \textbf{WaveFake} & \textbf{BanglaFake} \\
+\midrule
+Language & English & Bengali \\
+Real utterances & 13,100 & 12,260 \\
+Synthetic utterances & 104,885 & 13,260 \\
+Synthesis architectures & 7 (GAN-based) & 1 (VITS, end-to-end) \\
+Speaker(s), synthetic & 1 female & 1 male \\
+Source corpus & LJSpeech & SUST TTS Corpus \\
+Original sample rate & 22,050~Hz & 22,050~Hz \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =============================================================================
+\section{Methodology}
+% =============================================================================
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{methodology_pipeline_diagram.png}
+\caption{End-to-end methodology. Both datasets are preprocessed identically
+(Section~\ref{sec:alignment}) before splitting into parallel LFCC and
+Mel-Spectrogram feature-extraction pipelines; example feature maps are
+shown for illustration (not derived from real audio). Both pipelines feed
+an Xception CNN trained in two phases. The adversarial path (right) uses
+FGSM/PGD attacks and adaptive adversarial training to fine-tune the same
+model weights, and both clean and adversarial paths are scored with
+Accuracy and Equal Error Rate (EER).}
+\label{fig:pipeline}
+\end{figure*}
+
+Figure~\ref{fig:pipeline} illustrates the full pipeline described in this
+section.
+
+\subsection{Preprocessing}
+As described in Section~\ref{sec:alignment}, both datasets are brought to
+a shared 16~kHz, 4-second, silence-trimmed representation prior to
+feature extraction.
+
+\subsection{Feature Extraction}
+Two parallel feature pipelines are used, identical to
+\cite{ahmed2026melspec}, both sharing Short-Time Fourier Transform (STFT)
+parameters ($n_{fft}=2048$, hop$=512$).
+
+\textbf{LFCC pipeline:} linear-frequency filterbank (20 filters,
+0--8000~Hz) $\rightarrow$ Discrete Cosine Transform $\rightarrow$ 20
+cepstral coefficients $\rightarrow$ first/second derivatives, yielding a
+$(60,\text{time})$ representation resized to $299\times299\times3$ for
+CNN input.
+
+\textbf{Mel-Spectrogram pipeline:} mel-scaled filterbank
+($n_{mels}=128$) $\rightarrow$ log-power compression (no DCT, preserving
+dense spectral information) $\rightarrow$ first/second derivatives,
+yielding a $(3,128,\text{time})$ tensor resized to $299\times299\times3$.
+
+\subsection{Model Architecture}
+We use an ImageNet-pretrained Xception CNN ($\sim$23M parameters)
+\cite{chollet2017xception} with a binary classification head, trained in
+two phases: Phase~1 trains only the final layer (Adam, $lr{=}10^{-4}$);
+Phase~2 fine-tunes the entire network at the same learning rate.
+Cross-entropy loss uses label smoothing (0.1); training uses batch size
+128 and mixed-precision (FP16), matching \cite{ahmed2026melspec}.
+
+\subsection{Adversarial Attacks}
+We evaluate two white-box gradient attacks. FGSM
+\cite{goodfellow2015fgsm} perturbs an input $x$ as
+$\delta = \epsilon \cdot \mathrm{sign}(\nabla_x \mathcal{L})$, with
+$\epsilon \in \{0.0005, 0.00075, 0.001\}$. PGD \cite{madry2018pgd}
+iterates this perturbation over 10 steps with step size
+$\alpha = \epsilon/5$ and $\epsilon \in \{0.1, 0.15, 0.20\}$, projecting
+back onto the $\epsilon$-ball after each step.
+
+\subsection{Adaptive Adversarial Training}
+Following \cite{ahmed2026melspec}, we fine-tune for 10 epochs at
+$lr{=}5{\times}10^{-5}$ with dynamic attack sampling: at each step, FGSM
+or PGD is sampled with probability weighted by a momentum-smoothed
+running estimate of each attack's recent success rate
+($m{=}0.2$), while a fixed fraction $p{=}1/3$ of minibatches use clean
+(unattacked) samples to preserve baseline accuracy.
+
+% =============================================================================
+\section{Experimental Design}
+% =============================================================================
+
+\subsection{Experiment 1 --- In-Language Baseline (RQ1)}
+Xception is trained and evaluated on BanglaFake alone (80/20 split),
+separately for LFCC and Mel-Spectrogram features, replicating the
+ablation of \cite{ahmed2026melspec} on Bengali audio. Results are
+compared against the ResNet18 baseline (79.17\% accuracy / 24.35\% EER)
+from \cite{samu2025zeroshot}.
+
+\subsection{Experiment 2 --- Cross-Lingual / Cross-Architecture Zero-Shot Transfer (RQ2)}
+Two directions are evaluated, for both LFCC and Mel-Spectrogram features:
+\begin{itemize}
+\item \textbf{EN$\rightarrow$BN:} train on WaveFake (all 7 vocoders),
+zero-shot test on BanglaFake.
+\item \textbf{BN$\rightarrow$EN:} train on BanglaFake, zero-shot test on
+each WaveFake vocoder individually (per-vocoder breakdown, as in
+\cite{ahmed2026melspec}'s Table~I).
+\end{itemize}
+We additionally report a few-shot fine-tuning variant, adapting the
+source-trained model on a small ($\leq$10\%) slice of target-domain data,
+to characterize how quickly cross-lingual performance recovers with
+minimal target-language supervision.
+
+\subsection{Experiment 3 --- Cross-Lingual Adversarial Robustness (RQ3)}
+Using Mel-Spectrogram features (per Experiment~1/2 results, assuming Mel
+remains the stronger representation), we compare:
+\begin{itemize}
+\item \textbf{Transferred robustness:} adversarially train (FGSM/PGD,
+adaptive) on the source language, evaluate clean/FGSM/PGD EER on the
+\emph{target} language, zero-shot.
+\item \textbf{In-domain robustness:} adversarially train and evaluate
+directly on the target language.
+\end{itemize}
+The gap between these two conditions quantifies how much adversarial
+robustness is language/architecture-specific versus general.
+
+\subsection{Evaluation Metrics}
+We report classification accuracy and Equal Error Rate (EER), computed
+from the ROC curve as the operating point where false positive rate
+equals false negative rate, consistent with
+\cite{ahmed2026melspec,samu2025zeroshot}.
+
+% =============================================================================
+\section{Results}
+% =============================================================================
+\TODO{This entire section contains placeholder values (XX.X) and must be
+populated after running the three experiments in Section~V using the
+accompanying implementation. Do not submit with placeholders in place.}
+
+\subsection{Experiment 1: In-Language Baseline}
+
+\begin{table}[htbp]
+\caption{In-language results on BanglaFake (Experiment 1)}
+\label{tab:exp1}
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Feature} & \textbf{Model} & \textbf{Acc.\ (\%)} & \textbf{EER} \\
+\midrule
+LFCC & Xception & XX.X & 0.0XX \\
+Mel-Spectrogram & Xception & XX.X & 0.0XX \\
+\midrule
+\multicolumn{2}{l}{ResNet18 \cite{samu2025zeroshot} (reference)} & 79.17 & 0.2435 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\TODO{Discuss whether Mel continues to outperform LFCC on Bengali audio
+(RQ1) and how the result compares to the ResNet18 baseline.}
+
+\subsection{Experiment 2: Cross-Lingual / Cross-Architecture Transfer}
+
+\begin{table}[htbp]
+\caption{Zero-shot cross-lingual transfer (Experiment 2)}
+\label{tab:exp2}
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Direction} & \textbf{Feature} & \textbf{Acc.\ (\%)} & \textbf{EER} \\
+\midrule
+EN $\rightarrow$ BN (zero-shot) & LFCC & XX.X & 0.0XX \\
+EN $\rightarrow$ BN (zero-shot) & Mel & XX.X & 0.0XX \\
+BN $\rightarrow$ EN (zero-shot, avg.\ over vocoders) & LFCC & XX.X & 0.0XX \\
+BN $\rightarrow$ EN (zero-shot, avg.\ over vocoders) & Mel & XX.X & 0.0XX \\
+EN $\rightarrow$ BN (+10\% few-shot fine-tune) & Mel & XX.X & 0.0XX \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\TODO{Insert per-vocoder BN$\rightarrow$EN breakdown table, mirroring
+\cite{ahmed2026melspec} Table/Fig.\ format, once results are available.}
+
+\TODO{Discuss the size of the zero-shot degradation relative to
+in-language performance (RQ2), and whether Mel's advantage widens or
+narrows under cross-architecture transfer.}
+
+\subsection{Experiment 3: Cross-Lingual Adversarial Robustness}
+
+\begin{table}[htbp]
+\caption{Adversarial robustness: transferred vs.\ in-domain (Experiment 3)}
+\label{tab:exp3}
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Condition} & \textbf{Clean EER} & \textbf{FGSM EER} & \textbf{PGD EER} \\
+\midrule
+Transferred (src-adv.\ trained, tgt.\ tested) & 0.0XX & 0.0XX & 0.0XX \\
+In-domain (tgt.\ adv.\ trained, tgt.\ tested) & 0.0XX & 0.0XX & 0.0XX \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\TODO{Discuss the gap between transferred and in-domain robustness
+(RQ3): a small gap indicates robustness generalizes across
+language/architecture; a large gap indicates it must be learned
+per-language.}
+
+% =============================================================================
+\section{Limitations and Future Work}
+% =============================================================================
+This study is deliberately scoped to BanglaFake's existing single-vocoder
+(VITS), single-speaker synthetic set, which allows us to test
+cross-lingual and cross-architecture transfer but not cross-\emph{vocoder}
+generalization within Bengali itself, unlike WaveFake's seven-vocoder
+leave-one-out design. Extending BanglaFake with additional Bengali TTS
+backbones (e.g., a Bengali FastSpeech2 or Tacotron2 system) would enable
+a more direct within-language generalization study and is left to future
+work. We additionally restrict adversarial evaluation to white-box
+gradient attacks (FGSM, PGD); black-box, perceptual, and physical-world
+attacks are not evaluated. Finally, both datasets synthesize a single
+speaker per language, so speaker-diversity effects on cross-lingual
+transfer are not isolated here.
+
+% =============================================================================
+\section{Conclusion}
+% =============================================================================
+We extended a Mel-Spectrogram/Xception CNN audio deepfake detection
+pipeline, previously validated on English WaveFake, to the Bengali
+BanglaFake dataset, and evaluated it along three axes left open by prior
+Bengali deepfake detection work: in-language feature representation,
+cross-lingual/cross-architecture zero-shot transfer, and cross-lingual
+adversarial robustness transfer. \TODO{One or two closing sentences
+summarizing the actual findings once experiments are complete.} This work
+provides the first cross-lingual, adversarially evaluated benchmark for
+Bengali audio deepfake detection and a reusable methodology for extending
+it to additional low-resource languages and synthesis systems.
+
+% =============================================================================
+\bibliographystyle{IEEEtran}
+\begin{thebibliography}{00}
+
+\bibitem{kong2020hifigan}
+J.~Kong, J.~Kim, and J.~Bae, ``HiFi-GAN: Generative adversarial networks
+for efficient and high fidelity speech synthesis,'' in \emph{Advances in
+Neural Information Processing Systems (NeurIPS)}, vol.~33, 2020,
+pp.~17022--17033.
+
+\bibitem{kumar2019melgan}
+K.~Kumar, R.~Kumar, T.~de~Boissiere, L.~Gestin, W.~Z.~Teoh, J.~Sotelo,
+A.~de~Brebisson, Y.~Bengio, and A.~Courville, ``MelGAN: Generative
+adversarial networks for conditional waveform synthesis,'' in
+\emph{Advances in Neural Information Processing Systems (NeurIPS)},
+vol.~32, 2019, pp.~14910--14921.
+
+\bibitem{prenger2019waveglow}
+R.~J.~Prenger, R.~Valle, and B.~Catanzaro, ``WaveGlow: A flow-based
+generative network for speech synthesis,'' in \emph{Proc.\ ICASSP}, 2019,
+pp.~3617--3621.
+
+\bibitem{yamamoto2020pwg}
+R.~Yamamoto, E.~Song, and J.-M.~Kim, ``Parallel WaveGAN: A fast waveform
+generation model based on generative adversarial networks with
+multi-resolution spectrogram,'' in \emph{Proc.\ ICASSP}, 2020,
+pp.~6199--6203.
+
+\bibitem{todisco2019asvspoof}
+M.~Todisco, X.~Wang, V.~Vestman, M.~Sahidullah, H.~Delgado, A.~Nautsch,
+J.~Yamagishi, N.~Evans, T.~H.~Kinnunen, and K.~A.~Lee, ``ASVspoof 2019:
+Future horizons in spoofed and fake audio detection,'' in \emph{Proc.\
+Interspeech}, 2019, pp.~1008--1012.
+
+\bibitem{frank2021wavefake}
+J.~Frank and L.~Sch\"{o}nherr, ``WaveFake: A data set to facilitate audio
+deepfake detection,'' in \emph{35th Conference on Neural Information
+Processing Systems (NeurIPS) Datasets and Benchmarks Track}, 2021.
+
+\bibitem{fahad2025banglafake}
+I.~A.~Fahad, K.~Asif, and S.~Sikder, ``BanglaFake: Constructing and
+evaluating a specialized Bengali deepfake audio dataset,''
+\emph{arXiv preprint arXiv:2505.10885}, 2025.
+
+\bibitem{samu2025zeroshot}
+M.~S.~S.~Samu, M.~R.~Islam, M.~Z.~Hossain, M.~K.~Bhuiyan, and
+F.~U.~Zaman, ``Zero-shot to zero-lies: Detecting Bengali deepfake audio
+through transfer learning,'' in \emph{2025 28th International Conference
+on Computer and Information Technology (ICCIT)}, 2025.
+
+\bibitem{ahmed2026melspec}
+I.~Ahmed, M.~I.~Arian, and N.~J.~Lisa, ``Mel-Spectrogram representations
+for CNN based adversarial defense for audio deepfake detection,''
+\emph{[venue/year --- \TODO{insert final publication venue and year}]}.
+
+\bibitem{chollet2017xception}
+F.~Chollet, ``Xception: Deep learning with depthwise separable
+convolutions,'' in \emph{Proc.\ IEEE Conf.\ on Computer Vision and
+Pattern Recognition (CVPR)}, 2017, pp.~1800--1807.
+
+\bibitem{goodfellow2015fgsm}
+I.~J.~Goodfellow, J.~Shlens, and C.~Szegedy, ``Explaining and harnessing
+adversarial examples,'' in \emph{Proc.\ ICLR}, 2015.
+
+\bibitem{madry2018pgd}
+A.~Madry, A.~Makelov, L.~Schmidt, D.~Tsipras, and A.~Vladu, ``Towards
+deep learning models resistant to adversarial attacks,'' in \emph{Proc.\
+ICLR}, 2018.
+
+\bibitem{kawa2023lcnn}
+P.~Kawa, M.~Plata, and P.~Syga, ``Defense against adversarial attacks on
+audio deepfake detection,'' in \emph{Proc.\ Interspeech}, 2023,
+pp.~5276--5280.
+
+\bibitem{kim2021vits}
+J.~Kim, J.~Kong, and J.~Son, ``Conditional variational autoencoder with
+adversarial learning for end-to-end text-to-speech,'' in \emph{Proc.\
+International Conference on Machine Learning (ICML)}, 2021,
+pp.~5530--5540.
+
+\bibitem{ito2017ljspeech}
+K.~Ito and L.~Johnson, ``The LJ speech dataset,''
+\url{https://keithito.com/LJ-Speech-Dataset/}, 2017.
+
+\end{thebibliography}
+
+\end{document}
