@@ -1,0 +1,473 @@
+% =============================================================================
+% DASF-Net -- Bangla explanation script for the supervisor meeting
+%
+% MUST be compiled with XeLaTeX (not pdflatex) -- Bengali script needs
+% OpenType shaping and a Unicode font:
+%
+%     xelatex bangla-explanation.tex
+%
+% Font: Nirmala UI (ships with Windows; covers Bengali and Latin).
+% =============================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage[margin=2.1cm]{geometry}
+\usepackage{xcolor}
+\usepackage{framed}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage[hidelinks]{hyperref}
+
+\setmainfont{Nirmala UI}[Script=Bengali]
+\newfontfamily\latin{Nirmala UI}
+
+% Quote blocks = the sentences to actually say out loud
+\definecolor{barcol}{HTML}{2E6DA4}
+\definecolor{barbg}{HTML}{F4F8FC}
+\definecolor{warnbar}{HTML}{C0392B}
+\definecolor{warnbg}{HTML}{FDF2F0}
+
+\newenvironment{say}{%
+  \def\FrameCommand{\textcolor{barcol}{\vrule width 3pt}\hspace{8pt}}%
+  \MakeFramed{\advance\hsize-\width \FrameRestore}%
+}{\endMakeFramed}
+
+\newenvironment{warn}{%
+  \def\FrameCommand{\textcolor{warnbar}{\vrule width 3pt}\hspace{8pt}}%
+  \MakeFramed{\advance\hsize-\width \FrameRestore}%
+}{\endMakeFramed}
+
+\setlist{itemsep=2pt, topsep=4pt}
+\renewcommand{\arraystretch}{1.3}
+
+\title{\textbf{DASF-Net --- স্যারকে যেভাবে বোঝাবেন}}
+\author{Iftikhar Ahmed \quad$\cdot$\quad Meherun Nessa Mithila \quad$\cdot$\quad Mohammad Abdul Qayum\\
+Department of Electrical and Computer Engineering, North South University}
+\date{}
+
+\begin{document}
+\maketitle
+
+\noindent
+\small
+এই ডকুমেন্টটা presentation-এর script। Technical term-গুলো ইংরেজিতেই রাখা হয়েছে,
+কারণ ওগুলো বাংলা করলে স্যার বরং confuse হবেন। নীল দাগ দেওয়া অংশগুলো
+হুবহু মুখে বলার জন্য।
+\normalsize
+
+\vspace{4pt}
+\hrule
+\vspace{10pt}
+
+% =============================================================================
+\section*{১. শুরুতে এক লাইনে বলবেন}
+
+\begin{say}
+``স্যার, আমাদের কাজটা audio deepfake detection নিয়ে। এখনকার detector-গুলো
+দুইভাবে fail করে --- নতুন ভাষায় নিয়ে গেলে কাজ করে না, আর adversarial noise
+দিলে ভেঙে পড়ে। \textbf{আমাদের claim হলো এই দুইটা আসলে একই সমস্যা}, আর আমরা
+একটাই architecture দিয়ে দুইটাকেই attack করছি।''
+\end{say}
+
+এইটাই পুরো paper-এর মূল কথা। বাকি সবকিছু এই এক কথাটাকে দাঁড় করানোর যন্ত্রপাতি।
+
+% =============================================================================
+\section*{২. কোথা থেকে এসেছে --- দুইটা paper}
+
+\textbf{প্রথম paper --- BanglaFake} (ঢাকা বিশ্ববিদ্যালয়, ২০২৫)।
+এরা \textbf{data} দিয়েছে --- প্রথম public Bengali deepfake audio dataset।
+১২,২৬০টা আসল আর ১৩,২৬০টা নকল (VITS নামের end-to-end TTS দিয়ে বানানো)।
+\textbf{কিন্তু এরা কোনো detector train করেনি।} শুধু MOS দিয়ে audio-র quality
+মেপেছে (naturalness ৩.৪০, intelligibility ৪.০১) আর t-SNE plot দেখিয়েছে যেখানে
+আসল-নকল প্রচুর overlap করে।
+
+\textbf{দ্বিতীয় paper --- আমাদের নিজেদের আগের কাজ} (Mel-Spectrogram for CNN, NSU)।
+এরা \textbf{method} দিয়েছে --- দেখিয়েছে যে CNN-এর জন্য dense log-Mel, sparse
+LFCC-র চেয়ে ভালো (EER ০.০৩৪ বনাম ০.০৫৩, মানে ৩৬\% improvement), আর adaptive
+FGSM/PGD training দিয়ে robustness ফিরে পাওয়া যায় (FGSM ০.৭০ $\rightarrow$ ০.১০৭)।
+\textbf{কিন্তু ওটা শুধু ইংরেজি ছিল}, একটা dataset-এ, আর Mel আর LFCC-কে
+either/or হিসেবে দেখেছে।
+
+\textbf{তৃতীয়টা আমাদের না, কিন্তু গুরুত্বপূর্ণ --- ``Zero-Shot to Zero-Lies''}
+(ICCIT 2025)। এরাই প্রথম BanglaFake-এ detector benchmark করেছে। কিন্তু result
+খুব দুর্বল --- zero-shot-এ ৪৬.২০\% EER, fine-tune করেও ২৪.৩৫\% EER।
+\textbf{আর এরা নিজেরাই লিখে গেছে যে cross-lingual transfer আর adversarial
+robustness --- এই দুইটা open problem।} আমরা ঠিক এই দুইটাতেই হাত দিচ্ছি।
+
+\subsection*{এই dataset pairing-টা কেন interesting}
+
+স্যারকে এইটা আলাদা করে বলবেন, কারণ এইটা আমাদের setup-এর সবচেয়ে সুন্দর দিক:
+
+\begin{say}
+``WaveFake-এর নকলগুলো ৭টা \textbf{GAN vocoder} দিয়ে বানানো --- ওরা আসল speech-এর
+feature থেকে waveform আবার বানায়। আর BanglaFake-এর নকল \textbf{VITS end-to-end
+TTS} --- সরাসরি text থেকে speech বানায়। তাই ইংরেজি $\rightarrow$ বাংলা গেলে
+\textbf{ভাষা আর synthesis paradigm দুইটাই একসাথে বদলায়}। এটা যেকোনো একটার চেয়ে
+অনেক কঠিন আর বাস্তবসম্মত test।''
+\end{say}
+
+% =============================================================================
+\section*{৩. আসল সমস্যাটা কী (এইটা ভালো করে বলবেন)}
+
+সাধারণত লোকে বলে --- ``detector নতুন ভাষায় কাজ করে না মানে আরও data লাগবে।''
+আমরা বলছি \textbf{এই ব্যাখ্যাটা ভুল।}
+
+\begin{say}
+``স্যার, detector-টা আসলে \textbf{ভুল জিনিস শিখে ফেলেছে}। ওর feature-এ ধরা পড়ছে
+\emph{কোন corpus, কোন speaker, কোন ভাষা} --- কিন্তু ধরা পড়ছে না
+\emph{synthesizer-টা আসলে কী করেছে}।''
+\end{say}
+
+এখন adversarial attack-এর দিকে তাকান। FGSM/PGD কাজ করে input space-এ একটা ছোট
+direction খুঁজে বের করে যেটা decision উল্টে দেয়। \textbf{সেটাও একই জিনিস} ---
+model একটা ঠুনকো, আকস্মিক জিনিসের উপর নির্ভর করছে।
+
+\textbf{তাহলে দুইটাই = model একটা nuisance direction ধরে বসে আছে।}
+
+আর machine learning-এ ``এই direction-টা ব্যবহার বন্ধ করো'' শেখানোর standard উপায়
+হলো --- ওই direction-টাকে শাস্তি দেওয়ার জন্য একটা \textbf{adversary} লাগিয়ে দেওয়া।
+
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Nuisance} & \textbf{সমাধান} \\
+\midrule
+ভাষা / corpus-এর পরিচয় & \textbf{Domain-adversarial training} (Gradient Reversal Layer) \\
+Local exploitable gradient & \textbf{FGSM/PGD adversarial training} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{say}
+``audio deepfake detection-এ এই দুইটা adversary একসাথে একই embedding-এ কেউ
+বসায়নি। এইটাই আমাদের gap।''
+\end{say}
+
+% =============================================================================
+\section*{৪. DASF-Net --- অংশে অংশে}
+
+নাম: \textbf{D}ual-\textbf{A}dversarial \textbf{S}pectral-\textbf{F}usion
+\textbf{Net}work। Figure ১, ২, ৩ দেখাতে দেখাতে বলবেন।
+
+\subsection*{৪.১ HBP preprocessing (High-Band-Preserving)}
+
+\begin{say}
+``আমরা audio-টা ওর native \textbf{22.05 kHz}-এই রাখছি, 16 kHz-এ নামাচ্ছি না।''
+\end{say}
+
+\textbf{কেন গুরুত্বপূর্ণ:} 16 kHz করলে Nyquist ceiling 8 kHz হয়ে যায়, মানে
+\textbf{8--11 kHz band পুরো মুছে যায়} --- আর ঠিক ওখানেই vocoder আর TTS-এর
+artifact সবচেয়ে বেশি, আর ঠিক ওখানেই GAN আর VITS-এর পার্থক্য সবচেয়ে বেশি।
+
+আমাদের \textbf{নিজেদের আগের paper-এই 16 kHz করা হয়েছিল}। শুধু ইংরেজির মধ্যে কাজ
+করলে ওটা চলত, কিন্তু cross-paradigm claim করতে গেলে এটা প্রমাণটাই মুছে ফেলে।
+\textbf{আর এইটা আমরা ablate করছি (E4), শুধু দাবি করে ছেড়ে দিচ্ছি না।}
+
+\subsection*{৪.২ Dual-branch front-end}
+
+একই ৪ সেকেন্ডের clip থেকে \textbf{দুইটা view}:
+
+\begin{itemize}
+\item \textbf{Branch-S (sparse cepstral)} --- LFCC: linear filterbank (20)
+      $\rightarrow$ DCT $\rightarrow$ ২০টা coefficient $\rightarrow$
+      $\Delta + \Delta\Delta$
+\item \textbf{Branch-D (dense spectral)} --- log-Mel: ১২৮টা mel bin
+      $\rightarrow$ log-power, \textbf{DCT নাই} $\rightarrow$
+      $\Delta + \Delta\Delta$
+\end{itemize}
+
+দুইটার STFT setting হুবহু এক ($n_\mathrm{fft} = 2048$, hop $= 512$)।
+\textbf{এইটা ইচ্ছাকৃত} --- তাহলে দুইটার মধ্যে যা পার্থক্য, সেটা শুধু
+filterbank-এর কারণে, অন্য কিছুর কারণে না।
+
+\subsection*{৪.৩ Siamese-shared Xception trunk}
+
+প্রতিটা branch-এর নিজের ছোট \textbf{adapter stem} (২টা conv layer,
+$\approx$ ০.০৬M parameter), তারপর \textbf{দুইটাই একই Xception backbone-এর ভেতর
+দিয়ে যায়, tied weights সহ}।
+
+স্যার এইটা নিয়ে প্রশ্ন করবেন। উত্তর তৈরি রাখেন:
+
+\begin{say}
+``দুইটা আলাদা backbone দিলে প্রতিটা branch নিজের নিজের private feature space
+বানাতো, আর তখন fusion module-কে দুইটা সম্পূর্ণ অসম্পর্কিত geometry মেলাতে হতো।
+\textbf{একটা trunk জোর করে দুইটা view-কে একটাই artifact space-এ ফেলে}, আর খরচ
+মাত্র ০.১২M extra parameter --- দ্বিতীয় একটা 23M model-এর বদলে।''
+\end{say}
+
+\subsection*{৪.৪ CASF --- Cross-Attention Spectral Fusion (এইটাই মূল contribution)}
+
+১০০টা token, ২৫৬ dimension। তারপর \textbf{দুইমুখী cross-attention} --- Mel view
+LFCC view-কে query করে, আবার LFCC view Mel view-কে query করে। শেষে একটা
+\textbf{learned gate}:
+
+\begin{equation*}
+g = \sigma\!\left(W_g \cdot [\hat{h}_D \,;\, \hat{h}_S]\right),
+\qquad
+z = g \odot \hat{h}_D + (1 - g) \odot \hat{h}_S
+\end{equation*}
+
+\begin{say}
+``শুধু concatenate করলে সেটা ধরে নিতো যে দুইটা view সবসময় সমান গুরুত্বপূর্ণ।
+\textbf{Gate দিলে network নিজে ঠিক করে --- প্রতিটা utterance-এ, প্রতিটা
+dimension-এ --- কোন representation-টা artifact বহন করছে।}''
+\end{say}
+
+\textbf{আর একটা bonus আছে, এইটা অবশ্যই বলবেন:}
+
+\begin{say}
+``এই gate-টা model-কে interpretable করে দেয়। Test set-এ $g$-এর distribution
+দেখলেই সরাসরি উত্তর পাওয়া যায় --- \emph{GAN vocoder আর end-to-end TTS কি আলাদা
+representation-এ চিহ্ন রেখে যায়?} আমাদের আগের paper শুধু accuracy-র পার্থক্য
+বলতে পারত, এইটা \textbf{mechanism} বলতে পারে।''
+\end{say}
+
+\subsection*{৪.৫ তিনটা head}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}X l@{}}
+\toprule
+\textbf{Head} & \textbf{কী predict করে} & \textbf{কাজ} \\
+\midrule
+$h_\mathrm{det}$  & আসল না নকল & মূল কাজ \\
+$h_\mathrm{syn}$  & \{real, GAN-vocoder, E2E-TTS\} & auxiliary \\
+$h_\mathrm{lang}$ & ইংরেজি না বাংলা & \textbf{GRL-এর পেছনে} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+খেয়াল করবেন $h_\mathrm{syn}$ \textbf{family} predict করে, নির্দিষ্ট generator না।
+ঠিক কোন generator সেটা predict করতে বললে model generator-এর identity মুখস্থ করে
+ফেলবে --- আর সেটাই তো ওই failure যেটা cross-vocoder transfer ভেঙে দেয়।
+
+\subsection*{৪.৬ GRL --- এইটা সবচেয়ে ভালো করে বুঝে যাবেন}
+
+স্যার সবচেয়ে বেশি সম্ভাবনা এইটা নিয়েই খোঁচাবেন।
+
+\begin{say}
+``Gradient Reversal Layer forward pass-এ কিছুই করে না --- identity। কিন্তু
+backward pass-এ gradient-কে $-\lambda_d$ দিয়ে গুণ করে দেয়।
+
+\vspace{4pt}
+ফলে যা হয়: $h_\mathrm{lang}$ প্রাণপণে চেষ্টা করে ইংরেজি আর বাংলা আলাদা করতে,
+\textbf{আর ঠিক সেই সময়ে shared trunk-কে ঠেলা হচ্ছে যাতে সেই আলাদা করাটা অসম্ভব
+হয়ে যায়।}
+
+\vspace{4pt}
+Converge করার পর embedding-এ থেকে যায় যা আসল-নকল আলাদা করে, আর মুছে যায় যা
+বাংলা-ইংরেজি আলাদা করে।''
+\end{say}
+
+\subsection*{৪.৭ পুরো objective}
+
+\begin{equation*}
+L_\mathrm{total} = L_\mathrm{det}(x)
++ \lambda_\mathrm{adv} L_\mathrm{det}(x + \delta)
++ \lambda_\mathrm{syn} L_\mathrm{syn}
+- \lambda_d L_\mathrm{lang}
+\end{equation*}
+
+দুইটা adversary, কিন্তু \textbf{প্রকৃতিতে আলাদা}:
+
+\begin{itemize}
+\item \textbf{Perturbation adversary --- local।} প্রতিটা input-এর আশেপাশের ছোট
+      এলাকায় খোঁজে এমন direction যেটা decision উল্টে দেয়।
+\item \textbf{Domain adversary --- global।} পুরো embedding-এ খোঁজে এমন যেকোনো
+      direction যেটা corpus-এর পরিচয় ফাঁস করে।
+\end{itemize}
+
+\begin{say}
+``আমাদের hypothesis হলো এরা একে অপরকে সাহায্য করে --- যে embedding থেকে ভাষার
+পরিচয় মুছে গেছে, সেখানে attack-এর জন্য কম spurious direction থাকে।
+\textbf{তবে আমরা এটা ধরে নিচ্ছি না --- ablation দিয়ে test করছি।}''
+\end{say}
+
+\subsection*{৪.৮ তিন-ধাপের curriculum}
+
+একসাথে সব train করলে unstable হয় --- untrained discriminator থেকে আসা reversed
+gradient বড় আর অর্থহীন, আর untrained boundary-র বিরুদ্ধে বানানো adversarial
+example স্রেফ noise। তাই:
+
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Stage} & \textbf{কী হয়} & \textbf{কেন} \\
+\midrule
+১. Warm-up &
+Trunk frozen, শুধু adapter + CASF + $h_\mathrm{det}$ &
+Pretrained weight নাড়ার আগে একটা stable fused representation পাওয়া \\
+২. Alignment &
+Trunk unfreeze, $h_\mathrm{syn}$ + $h_\mathrm{lang}$ লাগানো,
+\textbf{unlabelled} target audio মেশানো, $\lambda_d$ ধীরে বাড়ানো &
+ভাষা-নিরপেক্ষতা তৈরি করা \\
+৩. Hardening &
+Adaptive FGSM/PGD যোগ, GRL চালু রেখেই &
+\textbf{আগে থেকেই language-invariant} এমন representation-কে শক্ত করা \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Stage 2-এ \textbf{target-এর label কখনো ব্যবহার করা হয় না} --- শুধু ভাষার tag।
+এইটা জোর দিয়ে বলবেন, এতে setting-টা target domain-এর দিক থেকে সৎভাবে
+unsupervised থাকে।
+
+% =============================================================================
+\section*{৫. দুইটা methodology fix --- এগুলো reviewer সবচেয়ে বেশি respect করে}
+
+\subsection*{৫.১ CCEP --- Confound-Controlled Evaluation Protocol}
+
+\begin{say}
+``স্যার, BanglaFake-এ একটা সমস্যা আছে যেটা এখনো কেউ ধরেনি --- \textbf{নকল দিকটা
+একজন পুরুষ speaker, আর আসল দিকটা সাত জন, নারী-পুরুষ দুই-ই।}
+
+\vspace{4pt}
+মানে একটা model শুধু \textbf{gender classify করেই} দুর্দান্ত score পেয়ে যেতে
+পারে --- deepfake নিয়ে কিছু না শিখেই।''
+\end{say}
+
+তার উপর WaveFake-এ fake:real প্রায় 8:1, আর BanglaFake-এ 1:1 --- তাই accuracy
+দুইটার মধ্যে তুলনীয়ই না। তাই আমাদের প্রতিটা number-এ চারটা শর্ত:
+
+\begin{enumerate}
+\item \textbf{Speaker-disjoint split} --- কোনো speaker train আর test দুই জায়গায় থাকবে না
+\item \textbf{Gender-balanced Bengali evaluation} --- মূল test set শুধু পুরুষ real
+      speech; mixed-gender number আলাদা করে diagnostic হিসেবে।
+      \textbf{দুইটার মধ্যে বড় ফারাক থাকা মানেই gender shortcut ধরা পড়েছে।}
+\item \textbf{Prior-matched test set} --- দুইটাই 1:1
+\item \textbf{EER-ই headline metric} (threshold-free)
+\end{enumerate}
+
+\subsection*{৫.২ Adversarial threat model ঠিক করা}
+
+এইটা সাহসের সাথে বলবেন, লুকাবেন না:
+
+\begin{say}
+``আমাদের \textbf{নিজেদের আগের paper-এ} FGSM চালানো হয়েছে $\epsilon \approx 0.001$-এ
+আর PGD চালানো হয়েছে $\epsilon \approx 0.1$-এ --- \textbf{budget-এ ১০০ গুণ পার্থক্য}।
+তাহলে `FGSM ০.১০৭ বনাম PGD ০.১৫৪' --- এই তুলনাটার কোনো অর্থ নেই। ভিন্ন budget
+দিয়ে কোন attack বেশি শক্তিশালী সেটা বলা যায় না।
+
+\vspace{4pt}
+আমরা দুইটা attack-কেই \textbf{একই $\epsilon$ grid $\{0.001,\, 0.005,\, 0.010\}$}-এ
+এনেছি, normalised feature domain-এ define করেছি, আর প্রতিটা $\epsilon$-এর জন্য
+আলাদা করে report করছি।''
+\end{say}
+
+নিজেদের আগের কাজের ভুল নিজে ধরা --- এটা defence-এ \textbf{ভালো দেখায়, খারাপ না}।
+মালিকানা নিয়ে বলবেন।
+
+% =============================================================================
+\section*{৬. কী কী run করব}
+
+তিনটা research question:
+
+\begin{itemize}
+\item \textbf{RQ1} --- Bengali VITS audio-তেও কি dense $>$ sparse? আর learned
+      fusion কি দুইটার যেকোনো একটার চেয়ে ভালো?
+\item \textbf{RQ2} --- dual-adversarial objective ইংরেজি $\leftrightarrow$ বাংলা
+      zero-shot gap কতটা কমায়?
+\item \textbf{RQ3} --- এক ভাষায় শেখা robustness কি অন্য ভাষায় টিকে থাকে?
+\end{itemize}
+
+পাঁচটা experiment: E1 (in-language baseline), E2 (zero-shot transfer, দুই দিকেই),
+E3 (robustness transfer), \textbf{E4 (ablation)}, E5 (gate analysis)।
+
+\begin{say}
+``\textbf{E4-ই এইটাকে paper বানায়, demo না।} Ablation ছাড়া যেকোনো improvement
+unattributed থেকে যায়; ablation থাকলে আমরা বলতে পারি \textbf{কোন component-টা}
+ওই improvement এনেছে।''
+\end{say}
+
+% =============================================================================
+\section*{৭. স্যার এই প্রশ্নগুলো করবেন --- উত্তর তৈরি রাখেন}
+
+\textbf{Q: ``এটা তো পুরনো pipeline নতুন dataset-এ চালানো, তাই না?''}
+\begin{say}
+``স্যার, \textbf{আগের draft-এ ঠিক এই সমস্যাটাই ছিল} এবং সেটা ন্যায্য সমালোচনা।
+ওই version-এ Mel/Xception pipeline অপরিবর্তিত রেখে শুধু transfer gap মাপা হয়েছিল।
+এই version-এ যোগ হয়েছে একটা fusion module, দ্বিতীয় একটা adversary, shared-trunk
+two-branch encoder, আর একটা training curriculum। এটা gap-টা \textbf{মাপে না,
+কমায়}।''
+\end{say}
+
+\textbf{Q: ``Wav2Vec2 বা বড় pretrained speech model fine-tune করলেই তো হতো?''}
+\begin{say}
+``সেটাই Zero-Shot to Zero-Lies-এর baseline, আর ওটা fine-tune করে ২৪.৩৫\% EER-এ
+পৌঁছেছে। আমাদের claim architecture নিয়ে, scale নিয়ে না --- আসল কথা হলো
+\textbf{embedding থেকে ভাষার তথ্য সরিয়ে ফেলা}, যেটা যত pretraining-ই করেন নিজে
+থেকে হয় না।''
+\end{say}
+
+\textbf{Q: ``GRL কি আসলে converge করে?''}
+\begin{say}
+``GRL unstable হওয়ার জন্য পরিচিত --- \textbf{ঠিক সেই কারণেই} ওটা Stage 1-এ না,
+Stage 2-তে ঢোকানো হয়, আর $\lambda_d$ fixed না রেখে standard DANN schedule দিয়ে
+০ থেকে ধীরে বাড়ানো হয়। তারপরও যদি unstable হয়, সেটা method সম্পর্কে একটা
+\textbf{reportable negative result} --- লুকানোর মতো bug না।''
+\end{say}
+
+\textbf{Q: ``বাংলায় তো মাত্র একটা generator। Generalisation claim করতে পারেন?''}
+\begin{say}
+``না স্যার, পারি না --- এবং Limitations section-এ আমরা সেটা লিখেই দিয়েছি। একটা
+VITS system দিয়ে cross-\emph{paradigm} transfer test করা যায়, কিন্তু বাংলার
+\emph{ভেতরে} cross-vocoder generalisation test করা যায় না --- যেটা WaveFake-এর
+৭-generator leave-one-out ইংরেজির জন্য করে। \textbf{আমরা ওই claim করছিও না।}
+পরের ধাপ হলো BanglaFake-এ একটা Bengali FastSpeech2 বা Tacotron2 যোগ করা।''
+\end{say}
+
+\textbf{Q: ``খরচ কেমন?''}
+\begin{say}
+``Shared trunk প্রতি utterance-এ দুইবার চলে, তাই single-branch-এর চেয়ে প্রায়
+২$\times$ forward/backward। আর Stage 3-এ PGD ($K = 10$) সবচেয়ে ভারী।
+\textbf{Inference কিন্তু একটা modern GPU-তে real-time-ই থাকে।}''
+\end{say}
+
+\textbf{Q: ``Hypothesis যদি ভুল হয়?''}
+\begin{say}
+``তাহলে E4 দেখাবে যে GRL আর adversarial stage একে অপরকে সাহায্য করছে না, আর
+আমরা সেটাই report করব। \textbf{Experimental design-টা এমনভাবে বানানো যে দুই
+ক্ষেত্রেই informative} --- শুধু full model না চালিয়ে ablation চালানোর মানেই তো এটা।''
+\end{say}
+
+% =============================================================================
+\section*{৮. শেষে --- এইটা সততার সাথে বলবেন}
+
+এইটা এড়াবেন না। স্যার নিজে থেকে ধরে ফেললে অনেক খারাপ হবে।
+
+\begin{warn}
+``স্যার, স্পষ্ট করে বলি --- \textbf{এখন পর্যন্ত একটাও experiment চালানো হয়নি।}
+কোনো result নেই, কোনো number নেই, কোনো trained model নেই।
+
+\vspace{4pt}
+Paper-এ ইচ্ছাকৃতভাবে Results section রাখা হয়নি, এবং abstract-এই সেটা লেখা আছে।
+
+\vspace{4pt}
+এটা একটা \textbf{design ও methodology paper, যার empirical study এখনো বাকি}।
+Architecture, algorithm, experimental design, threat model, evaluation protocol
+--- এগুলো তৈরি। কোড লেখা হয়েছে, কিন্তু এই মেশিনে PyTorch install করা নেই বলে
+এখনো run করে দেখা হয়নি।''
+\end{warn}
+
+\textbf{এইভাবেই present করবেন।} অন্যভাবে দাবি করলে মুহূর্তেই ধরা পড়ে যাবেন ---
+আর তখন বাকি ভালো কাজটুকুও বিশ্বাসযোগ্যতা হারাবে।
+
+% =============================================================================
+\section*{বলার ক্রম (৫ মিনিটে)}
+
+\begin{enumerate}
+\item এক লাইনের claim
+\item দুইটা source paper + কেন এই pairing
+\item ``detector ভুল জিনিস শিখেছে''
+\item Figure ১ দেখিয়ে DASF-Net-এর ৫টা অংশ
+\item Figure ২-তে CASF gate + GRL বিস্তারিত
+\item gender confound আর $\epsilon$ fix
+      \textbf{(এই দুইটাই আপনার সবচেয়ে শক্তিশালী point)}
+\item Figure ৩-এ তিন ধাপ
+\item পাঁচটা experiment, E4-এ জোর
+\item \textbf{status সততার সাথে}
+\end{enumerate}
+
+\end{document}

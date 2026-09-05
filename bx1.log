@@ -1,0 +1,115 @@
+This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.12) (preloaded format=xelatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(bangla-explanation.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/base\size11.clo))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xpar
+se.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-xe
+tex.def)))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec-xete
+x.sty (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.cfg)
+))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg)
+) (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\xetex.def
+)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx
+)) (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/framed\framed.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty)
+ (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty
+) (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+For additional information on amsmath, use the `?' option.
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty)
+) (C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/parskip\parskip.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.st
+y
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty)
+
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.st
+y))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty)
+)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefin
+ekeys.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.
+sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmd
+s.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.
+sty)))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty)
+
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\getti
+tlestring.sty))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.
+sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcal
+c.sty)))
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hxetex.def
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfi
+lecheck.sty
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\unique
+counter.sty)))
+No file bangla-explanation.aux.
+*geometry* driver: auto-detecting
+*geometry* detected driver: xetex
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
+
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd)
+(C:\Users\I-Bros\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd)
+[1]
+
+LaTeX Font Warning: Font shape `TU/NirmalaUI(0)/m/it' undefined
+(Font)              using `TU/NirmalaUI(0)/m/n' instead on input line 120.
+
+[2] [3] [4] [5]
+Underfull \hbox (badness 4726) in paragraph at lines 423--426
+[]\TU/NirmalaUI(0)/m/it/10.95 “Shared trunk প্রতি utterance-এ দুইবার চলে, তাই s
+ingle-branch-এর চেয়ে প্রায় ২$\OMS/cmsy/m/n/10.95 ^^B$ \TU/NirmalaUI(0)/m/it/1
+0.95 for-
+[6] (bangla-explanation.aux)miktex-dvipdfmx: major issue: So far, you have not checked for MiKTeX updates.
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+Package rerunfilecheck Warning: File `bangla-explanation.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+ )
+(see the transcript file for additional information)
+Output written on bangla-explanation.pdf (6 pages).
+Transcript written on bangla-explanation.log.
+xelatex: major issue: So far, you have not checked for MiKTeX updates.
