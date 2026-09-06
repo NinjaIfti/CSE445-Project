@@ -144,7 +144,17 @@ class ModelConfig:
 
 @dataclass
 class TrainConfig:
-    batch_size: int = 128
+    # The shared trunk is evaluated twice per utterance, so one sample costs
+    # roughly double the activation memory of a single-branch Xception at
+    # 299x299.  A batch of 128 does NOT fit in 8 GB (RTX 5060 Ti).  The
+    # micro-batch below fits; `accum_steps` restores an effective batch of 128.
+    #
+    # WARNING: gradient accumulation is declared here but is NOT yet wired
+    # into the three training loops -- they step the optimiser every batch.
+    # Until it is implemented, training runs at an effective batch of 16, which
+    # does not match the learning rates quoted in the report.
+    batch_size: int = 16              # micro-batch that fits in 8 GB
+    accum_steps: int = 8              # 16 x 8 = 128 effective
     label_smoothing: float = 0.1
 
     stage1_epochs: int = 5            # representation warm-up

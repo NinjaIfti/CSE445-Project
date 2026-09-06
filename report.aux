@@ -1,0 +1,65 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction, Objectives, Motivation and Contributions}{2}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-A}}Motivation}{2}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-B}}Objectives}{2}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-C}}Contributions}{3}{subsection.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Project Background}{3}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Context and Rationale}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Historical and Scientific Context}{3}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Significance to the Broader Domain}{3}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Literature Review}{3}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Existing Knowledge and Theoretical Basis}{3}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Gaps and Limitations in Previous Studies}{4}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Relevant Case Studies}{4}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Relation and Advantage of This Project}{4}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Design Methodology and Proposed System}{4}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Overview of Approach}{4}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Datasets}{4}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Data Preprocessing Pipeline}{4}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:hbp}{{\mbox  {IV-C}}{4}{Data Preprocessing Pipeline}{subsection.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces System architecture and end-to-end pipeline of DASF-Net. Both corpora pass through identical High-Band-Preserving preprocessing, split into a sparse cepstral and a dense spectral branch, and are encoded by one Siamese-shared Xception trunk. Cross-Attention Spectral Fusion produces a single embedding $z$ on which three heads act: detection, an auxiliary synthesis-family classifier, and a gradient-reversed language discriminator. Two adversaries --- perturbation and domain --- shape the same embedding through the combined objective, and all reported figures follow the Confound-Controlled Evaluation Protocol.}}{5}{figure.1}\protected@file@percent }
+\newlabel{fig:pipeline}{{1}{5}{System architecture and end-to-end pipeline of DASF-Net. Both corpora pass through identical High-Band-Preserving preprocessing, split into a sparse cepstral and a dense spectral branch, and are encoded by one Siamese-shared Xception trunk. Cross-Attention Spectral Fusion produces a single embedding $z$ on which three heads act: detection, an auxiliary synthesis-family classifier, and a gradient-reversed language discriminator. Two adversaries --- perturbation and domain --- shape the same embedding through the combined objective, and all reported figures follow the Confound-Controlled Evaluation Protocol}{figure.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Dataset summary after High-Band-Preserving alignment}}{6}{table.1}\protected@file@percent }
+\newlabel{tab:datasets}{{I}{6}{Dataset summary after High-Band-Preserving alignment}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}System Architecture}{6}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}1}Branch adapters and a Siamese-shared trunk}{6}{subsubsection.4.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}2}Cross-Attention Spectral Fusion}{6}{subsubsection.4.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}3}Objective heads}{6}{subsubsection.4.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}4}The dual-adversarial objective}{6}{subsubsection.4.4.4}\protected@file@percent }
+\newlabel{eq:total}{{6}{6}{The dual-adversarial objective}{equation.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Training Pipeline}{6}{subsection.4.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces DASF-Net in detail. (a) The dual-branch encoder: one utterance becomes a sparse cepstral and a dense spectral view, each passed through its own adapter stem into a single weight-shared Xception trunk. (b) CASF tokenises both feature maps, lets each view attend over the other, and combines them through a learned gate into $z$; three heads then act on $z$, the language head behind a gradient reversal layer.}}{7}{figure.2}\protected@file@percent }
+\newlabel{fig:dasfnet}{{2}{7}{DASF-Net in detail. (a) The dual-branch encoder: one utterance becomes a sparse cepstral and a dense spectral view, each passed through its own adapter stem into a single weight-shared Xception trunk. (b) CASF tokenises both feature maps, lets each view attend over the other, and combines them through a learned gate into $z$; three heads then act on $z$, the language head behind a gradient reversal layer}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}Testing Pipeline and Threat Model}{7}{subsection.4.6}\protected@file@percent }
+\newlabel{sec:threat}{{\mbox  {IV-F}}{7}{Testing Pipeline and Threat Model}{subsection.4.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-G}}Tools and Resources}{7}{subsection.4.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The three-stage training curriculum. Each stage adds one source of difficulty and inherits the weights of the stage before it.}}{8}{figure.3}\protected@file@percent }
+\newlabel{fig:training}{{3}{8}{The three-stage training curriculum. Each stage adds one source of difficulty and inherits the weights of the stage before it}{figure.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Tools, resources and technologies}}{8}{table.2}\protected@file@percent }
+\newlabel{tab:tools}{{II}{8}{Tools, resources and technologies}{table.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Testing Methodology}{8}{section.5}\protected@file@percent }
+\newlabel{sec:testing}{{V}{8}{Testing Methodology}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}How Success Will Be Measured}{8}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}1}Evaluation metrics}{8}{subsubsection.5.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}2}Benchmarks}{8}{subsubsection.5.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}3}Confound-Controlled Evaluation Protocol}{8}{subsubsection.5.1.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Planned experiments and the objective each addresses}}{9}{table.3}\protected@file@percent }
+\newlabel{tab:experiments}{{III}{9}{Planned experiments and the objective each addresses}{table.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}4}Experiments}{9}{subsubsection.5.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}5}Achievement of objectives}{9}{subsubsection.5.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Monitoring and Reporting}{9}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Current Status}{9}{subsection.5.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Project timeline and milestones}}{9}{table.4}\protected@file@percent }
+\newlabel{tab:timeline}{{IV}{9}{Project timeline and milestones}{table.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Estimated project budget}}{9}{table.5}\protected@file@percent }
+\newlabel{tab:budget}{{V}{9}{Estimated project budget}{table.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Project Timeline}{9}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Budget}{9}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Team Members and Roles}{10}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Risks and Mitigation Strategies}{10}{section.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {X}Conclusion and Limitations}{10}{section.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {X-A}}Limitations}{11}{subsection.10.1}\protected@file@percent }
+\gdef \@abspage@last{12}
